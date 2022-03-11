@@ -2,7 +2,6 @@ name: Destroy staging environment
 
 on:
   label:
-    types: [ deleted ]
   pull_request:
     
 
