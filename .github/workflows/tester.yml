@@ -6,7 +6,7 @@ on:
 
 jobs:
   destroy_staging_environment:
-    if: github.event.label.name == 'AWS staging'
+    if: github.event.label.name == 'AWS stagin'
     runs-on: ubuntu-latest
 
     steps:
