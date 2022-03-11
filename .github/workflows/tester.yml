@@ -1,14 +1,12 @@
 name: Destroy staging environment
 
 on:
-  pull_request:
-    types: [ closed ]
   label:
     types: [ deleted ]
 
 jobs:
   destroy_staging_environment:
-    if: contains(github.event.pull_request.labels.*.name, 'AWS staging') || github.event.label.name == 'AWS staging'
+    if: github.event.label.name == 'AWS staging'
     runs-on: ubuntu-latest
 
     steps:
