@@ -1,0 +1,22 @@
+name: Destroy staging environment
+
+on:
+  pull_request:
+    types: [ closed ]
+  label:
+    types: [ deleted ]
+
+jobs:
+  destroy_staging_environment:
+    if: contains(github.event.pull_request.labels.*.name, 'AWS staging') || github.event.label.name == 'AWS staging'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9.7"
+          architecture: "x64"
