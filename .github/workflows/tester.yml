@@ -2,7 +2,7 @@ name: Destroy staging environment
 
 on:
   pull_request: 
-    types: [ unlabeled ]
+    types: [ unlabeled, closed ]
 
 jobs:
   build:
