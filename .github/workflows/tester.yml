@@ -9,4 +9,32 @@ jobs:
     if: github.event.label.name == 'AWS staging' || contains(github.event.pull_request.labels.*.name, 'AWS staging')
     runs-on: ubuntu-latest
     steps:
-    - uses: hmarr/debug-action@v2
+      # this step will only run if the PR has been merged
+      # thanks https://shipit.dev/posts/trigger-github-actions-on-pr-close.html
+      - name: Command on PR merged
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event.pull_request.merged == true
+        with:
+          msg: "Pull request merged: the environment has been destroyed"
+          check_for_duplicate_msg: false
+
+      # this step will only run if the PR has been closed without being merged
+      - name: Command on PR closed (no merge)
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event.action == 'closed' && github.event.pull_request.merged == false
+        with:
+          msg: "Pull request closed (without merging): the environment has been destroyed"
+          check_for_duplicate_msg: false
+
+      - name: Command on PR unlabeled
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event.action == 'unlabeled'
+        with:
+          msg: "AWS staging label removed: the environment has been destroyed"
+          check_for_duplicate_msg: false
