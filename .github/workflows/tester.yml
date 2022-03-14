@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    if: github.event.label.name == 'AWS staging'
+    if: github.event.label.name == 'AWS staging' || contains(github.event.pull_request.labels.*.name, 'AWS staging')
     runs-on: ubuntu-latest
     steps:
     - uses: hmarr/debug-action@v2
